@@ -488,6 +488,11 @@ class OneClassNN(BaseDetector):
                 loss = loss - self.r
                 training_loss.append(loss.item())
 
+
+            # print(abs(float(loss_weight) * 0.5 / (float(loss) / len(train_loader))))
+            # nu_value  =  abs(float(loss_weight) / float(loss) * float(self.nu))
+            # print('nu = ', self.nu)
+
             if len(val_loader) > 0:
                 self.ocnn_net.eval()
                 val_loss = []
@@ -521,6 +526,18 @@ class OneClassNN(BaseDetector):
                         epoch + 1, self.epochs, np.mean(training_loss)
                     )
                 )
+            # print(self.nu)
+            # print(len(train_loader))
+            # print(abs((float(loss) / len(train_loader))  / (float(loss_weight) * 0.5 * float(self.nu))))
+
+            # それぞれの項の値の大きさを出力
+            # print('loss_weight =', float(loss_weight * 0.5))
+            # print('loss =', float(loss))
+            # print(abs(float(loss) / (float(loss_weight) * 0.5)))
+
+            self.nu = abs((float(loss)  / (float(loss_weight) * 0.5 * float(self.nu))) / 300000
+
+            # print(self.nu)
 
 
     def fit(self, X, y=None):
